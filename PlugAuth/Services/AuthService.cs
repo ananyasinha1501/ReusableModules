@@ -55,6 +55,12 @@ public class AuthService : IAuthService
 
     public async Task<AuthResponse> LoginAsync(LoginRequest request)
     {
+        if (string.IsNullOrWhiteSpace(request.Email) ||
+            string.IsNullOrWhiteSpace(request.Password))
+        {
+            throw new UnauthorizedAccessException("Invalid credentials.");
+        }
+
         var email = request.Email.Trim().ToLowerInvariant();
 
         var user = await _userStore.FindByEmailAsync(email);
