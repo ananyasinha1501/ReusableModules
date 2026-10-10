@@ -42,7 +42,8 @@ public class AuthService : IAuthService
         {
             Email = email,
             PasswordHash = string.Empty,
-            DisplayName = request.DisplayName?.Trim()
+            DisplayName = request.DisplayName?.Trim(),
+            Role = request.Role
         };
 
         user.PasswordHash =
@@ -168,7 +169,8 @@ public class AuthService : IAuthService
 
             UserId = user.Id,
             Email = user.Email,
-            DisplayName = user.DisplayName
+            DisplayName = user.DisplayName,
+            Role = user.Role
         };
     }
 }

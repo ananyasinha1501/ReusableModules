@@ -1,5 +1,7 @@
 namespace PlugAuth.DTOs;
 
+using PlugAuth.Entities;
+
 public class AuthResponse
 {
     public required string AccessToken { get; set; }
@@ -13,4 +15,6 @@ public class AuthResponse
     public required string Email { get; set; }
 
     public string? DisplayName { get; set; }
+
+    public UserRole Role { get; set; } = UserRole.Buyer;
 }

@@ -10,6 +10,8 @@ public class AuthUser
 
     public string? DisplayName { get; set; }
 
+    public UserRole Role { get; set; } = UserRole.Buyer;
+
     public bool IsActive { get; set; } = true;
 
     public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;

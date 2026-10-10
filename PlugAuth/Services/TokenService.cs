@@ -25,7 +25,8 @@ public class TokenService : ITokenService
             new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new(JwtRegisteredClaimNames.Email, user.Email),
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new(ClaimTypes.Email, user.Email)
+            new(ClaimTypes.Email, user.Email),
+            new("role", user.Role.ToString())
         };
 
         if (!string.IsNullOrWhiteSpace(user.DisplayName))
