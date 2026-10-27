@@ -8,6 +8,12 @@ namespace PlugAuth.Services;
 
 public class AuthService : IAuthService
 {
+    private static readonly UserRole[] SelfRegistrableRoles =
+    {
+        UserRole.Buyer,
+        UserRole.Vendor
+    };
+
     private readonly IAuthUserStore _userStore;
     private readonly IPasswordService _passwordService;
     private readonly ITokenService _tokenService;
@@ -34,6 +40,11 @@ public class AuthService : IAuthService
 
         if (string.IsNullOrWhiteSpace(request.Password))
             throw new ArgumentException("Password is required.");
+
+        // Public registration may only create Buyer or Vendor accounts.
+        // Privileged roles (Admin) must be granted through a trusted server-side path.
+        if (!SelfRegistrableRoles.Contains(request.Role))
+            throw new ArgumentException("The requested role cannot be self-registered.");
 
         if (await _userStore.EmailExistsAsync(email))
             throw new InvalidOperationException("Email is already registered.");
