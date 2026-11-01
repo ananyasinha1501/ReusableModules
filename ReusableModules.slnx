@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="PlugAuth.Tests/PlugAuth.Tests.csproj" />
   <Project Path="PlugAuth/PlugAuth.csproj" />
 </Solution>
