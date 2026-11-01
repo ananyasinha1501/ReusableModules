@@ -8,6 +8,10 @@ namespace PlugAuth.Services;
 
 public class AuthService : IAuthService
 {
+    // Longest email accepted at registration (the ASP.NET Identity default). Hosts can use it to
+    // size an indexed email column; real addresses are at most 254 characters.
+    public const int MaxEmailLength = 256;
+
     private static readonly UserRole[] SelfRegistrableRoles =
     {
         UserRole.Buyer,
@@ -38,6 +42,9 @@ public class AuthService : IAuthService
         if (string.IsNullOrWhiteSpace(email))
             throw new ArgumentException("Email is required.");
 
+        if (email.Length > MaxEmailLength)
+            throw new ArgumentException($"Email must be at most {MaxEmailLength} characters.");
+
         if (string.IsNullOrWhiteSpace(request.Password))
             throw new ArgumentException("Password is required.");
 
@@ -47,7 +54,7 @@ public class AuthService : IAuthService
             throw new ArgumentException("The requested role cannot be self-registered.");
 
         if (await _userStore.EmailExistsAsync(email))
-            throw new InvalidOperationException("Email is already registered.");
+            throw new EmailAlreadyRegisteredException();
 
         var user = new AuthUser
         {
